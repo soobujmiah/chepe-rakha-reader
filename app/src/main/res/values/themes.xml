@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Chepe Rakha Reader — Theme -->
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme - Light -->
+    <style name="Theme.ChepeRakhaReader" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/accent</item>
+        <item name="colorOnPrimary">@android:color/white</item>
+        <item name="colorSecondary">@color/accent_light</item>
+        <item name="colorOnSecondary">@android:color/white</item>
+        <item name="android:colorBackground">@color/background</item>
+        <item name="colorSurface">@color/surface</item>
+        <item name="colorOnSurface">@color/text_primary</item>
+        <item name="colorSurfaceVariant">@color/surface_variant</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@color/surface</item>
+        <item name="materialButtonStyle">@style/CustomMaterialButton</item>
+        <item name="materialChipStyle">@style/CustomChip</item>
+    </style>
+
+    <style name="CustomMaterialButton" parent="Widget.MaterialComponents.Button">
+        <item name="cornerRadius">28dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <style name="CustomChip" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipBackgroundColor">@color/surface_variant</item>
+        <item name="checkedIconVisible">true</item>
+    </style>
+
+    <!-- Dialog themes -->
+    <style name="ReaderDialog" parent="Theme.MaterialComponents.Light.Dialog">
+        <item name="android:windowBackground">@color/surface</item>
+        <item name="android:windowMinWidthMajor">90%</item>
+        <item name="android:windowMinWidthMinor">90%</item>
+    </style>
+</resources>

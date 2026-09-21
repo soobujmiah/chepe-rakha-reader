@@ -1,0 +1,4 @@
+# Add your AdMob App ID here for local testing.
+# Example: admobAppId="ca-app-pub-XXXXXXXXXXXXXXXX~YYYYYYYYYY"
+# For now uses test placeholder from build.gradle.kts.
+# Do NOT commit real IDs to git.

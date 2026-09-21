@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Chepe Rakha Reader — Play Store feature graphic -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="1024dp"
+    android:height="500dp"
+    android:viewportWidth="1024"
+    android:viewportHeight="500">
+    <path
+        android:fillColor="#FAF8F5"
+        android:pathData="M0,0 h1024 v500 h-1024 Z"/>
+    <path
+        android:fillColor="#8B6914"
+        android:pathData="M512,100 L512,400 M400,200 L624,200 M400,250 L560,250 M400,300 L480,300"/>
+</vector>

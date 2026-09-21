@@ -1,0 +1,10 @@
+name=Chepe Rakha Reader
+package=com.sobuj.cheperakha.reader
+versionCode=1
+versionName=1.0.0
+minSdk=26
+targetSdk=35
+compileSdk=35
+description=A premium single-book EPUB reader for Android
+shortDescription=Read Chepe Rakha Ityhash on your Android device
+fullDescription=A beautifully crafted EPUB reader featuring the classic Bengali work "Chepe Rakha Ityhash" by Allama Golam Ahmad Mortaza. Read offline with customizable fonts, themes, and comfortable reading settings.\n\nFeatures:\n• Beautiful book cover and metadata display\n• Three reading themes: Light, Sepia, Dark\n• Customizable font size, line spacing, and margins\n• Chapter navigation via table of contents\n• Bookmarking for quick access\n• Offline-first reading experience\n• AdMob integration for supporting the app\n\nAbout the Book:\nChepe Rakha Ityhash is a significant historical work by Allama Golam Ahmad Mortaza, exploring aspects of Bengali Islamic history. This edition presents the text in an elegant, easy-to-read digital format.

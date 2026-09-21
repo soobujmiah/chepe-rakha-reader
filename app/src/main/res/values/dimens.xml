@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Chepe Rakha Reader — Typography and dimensions -->
+<resources>
+    <!-- Body text base size - will be scaled by user preference -->
+    <dimen name="body_text_size">17sp</dimen>
+    <dimen name="body_line_height">1.7</dimen>
+    
+    <!-- Chapter heading sizes -->
+    <dimen name="heading_1_size">22sp</dimen>
+    <dimen name="heading_2_size">18sp</dimen>
+    <dimen name="heading_3_size">16sp</dimen>
+    
+    <!-- Reading margins -->
+    <dimen name="page_margin_small">16dp</dimen>
+    <dimen name="page_margin_medium">24dp</dimen>
+    <dimen name="page_margin_large">32dp</dimen>
+    
+    <!-- Touch targets -->
+    <dimen name="min_touch_target">48dp</dimen>
+    
+    <!-- UI spacing -->
+    <dimen name="spacing_xs">4dp</dimen>
+    <dimen name="spacing_sm">8dp</dimen>
+    <dimen name="spacing_md">16dp</dimen>
+    <dimen name="spacing_lg">24dp</dimen>
+    <dimen name="spacing_xl">32dp</dimen>
+</resources>

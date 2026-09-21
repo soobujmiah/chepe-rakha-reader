@@ -1,0 +1,19 @@
+# app-ads.txt Content
+
+# Chepe Rakha Reader — app-ads.txt
+# Add this file to your website root: https://YOUR_DOMAIN/app-ads.txt
+# Or upload to Google Play Console > App ads.txt
+
+# Format: <ad_platform>,<publisher_id>,<account_type>
+# For AdMob direct connection:
+google.com,pub-XXXXXXXXXXXXXXXX,DIRECT
+
+# If you have multiple ad networks:
+# Example for additional networks (replace X with your IDs):
+# facebook.com,pub-XXXXXXXX,PRIMARY
+# appLovin.com,XXXXXXXX,UNVERIFIED
+
+# Instructions:
+# 1. Replace pub-XXXXXXXXXXXXXXXX with your actual AdMob publisher ID
+# 2. Upload to your domain root or add via Google Play Console
+# 3. Verification may take 24-48 hours

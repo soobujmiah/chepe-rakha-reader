@@ -1,0 +1,71 @@
+# Chepe Rakha Reader
+
+একটি একক-বই EPUB রিডার অ্যাপ্লিকেশন যা Google Play Store-তে প্রকাশের জন্য তৈরি।
+
+## বৈশিষ্ট্য
+
+- ইমবেডেড EPUB বুক অফলাইনে পড়ুন
+- তিনটি থিম: লাইট, সেপিয়া, ডার্ক
+- ফন্ট সাইজ, লাইন স্পেসিং, মার্জিন সামঞ্জস্য
+- অধ্যায় নেভিগেশন এবং টেবিল অফ কন্টেন্ট
+- বুকমার্ক সমর্থন
+- AdMob বিজ্ঞাপন ইন্টিগ্রেশন
+- গুগল কনসেন্ট প্ল্যাটফর্ম (UMP)
+
+## প্রয়োজনীয়তা
+
+- Android SDK 35 (Android 15)
+- Java 17
+- AdMob App ID (CI/CD সিক্রেট হিসাবে)
+- Signing Keystore (রিলিজ বিল্ডের জন্য)
+
+## স্থানীয়ভাবে বিল্ড করা
+
+```bash
+# ডিবাগ APK তৈরি
+./gradlew assembleDebug
+
+# রিলিজ AAB তৈরি (কিস্টোর সহ)
+./gradlew bundleRelease
+```
+
+## CI/CD বিল্ড
+
+GitHub Actions স্বয়ংক্রিয়ভাবে বিল্ড করে:
+- প্রতিটি পুশ/PR এর জন্য ডিবাগ APK
+- ট্যাগ এবং মূল ব্রাঞ্চ পুশ এর জন্য রিলিজ AAB
+
+প্রয়োজনীয় সিক্রেট:
+- `ADMOB_APP_ID` — Google Mobile Ads App ID
+- `KEYSTORE_FILE` — Base64 এনকোডেড keystore.jks
+- `KEYSTORE_PASSWORD` — কিস্টোর পাসওয়ার্ড
+- `KEY_ALIAS` — কী অ্যালিয়াস
+- `KEY_PASSWORD` — কী পাসওয়ার্ড
+
+## EPUB যোগ করা
+
+EPUB ফাইল রাখুন: `app/src/main/assets/book/book.epub`
+
+অথবা GitHub Actions workflow এ EPUB পাথ কনফিগার করুন।
+
+## প্লে স্টোর পাবলিশিং
+
+1. GitHub Actions থেকে AAB ডাউনলোড করুন
+2. Google Play Console এ আপলোড করুন
+3. Data Safety ফর্মে এই তথ্য যোগ করুন:
+   - Advertising SDKs ব্যবহৃত হয়
+   - কোনো ব্যক্তিগত ডেটা সংগ্রহ হয় না
+   - Offline-first আর্কিটেকচার
+
+## গোপনীয়তা নীতি
+
+একটি পাবলিক গোপনীয়তা নীতি URL প্রয়োজন। ন্যূনতম পয়েন্ট:
+- বিজ্ঞাপন SDKs (Google Mobile Ads)
+- Advertising Identifier (AAID) ব্যবহার
+- কোনো ব্যক্তিগত তথ্য সংগ্রহ হয় না
+- কনসেন্ট ম্যানেজমেন্ট
+- যোগাযোগের তথ্য
+
+## লাইসেন্স
+
+Copyright (C) 2026 Sobuj Miah

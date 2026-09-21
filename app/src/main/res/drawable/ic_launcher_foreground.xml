@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Chepe Rakha Reader — App icon foreground vector -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,30 L54,78 M40,45 L68,45 M40,60 L58,60"
+        android:strokeWidth="6"
+        android:strokeColor="#8B6914"
+        android:strokeLineCap="round"/>
+</vector>

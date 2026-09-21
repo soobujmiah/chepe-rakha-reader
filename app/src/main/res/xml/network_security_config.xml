@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Network security config -->
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="false">
+        <domain includeSubdomains="true">googleads.g.doubleclick.net</domain>
+        <domain includeSubdomains="true">static.googleusercontent.com</domain>
+    </domain-config>
+</network-security-config>

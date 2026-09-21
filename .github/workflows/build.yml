@@ -1,0 +1,109 @@
+# Chepe Rakha Reader — GitHub Actions CI/CD Pipeline
+# Builds debug APK and release AAB automatically on push/tag.
+#
+# Secrets required (GitHub Repository Settings → Secrets):
+#   - ADMOB_APP_ID          (e.g., ca-app-pub-XXXXXXXX~YYYYYYYY)
+#   - KEYSTORE_FILE         (base64 encoded keystore.jks)
+#   - KEYSTORE_PASSWORD     (keystore password)
+#   - KEY_ALIAS             (key alias)
+#   - KEY_PASSWORD          (key password)
+#
+# If secrets are missing, build falls back to unsigned debug APK.
+
+name: Build Android App
+
+on:
+  push:
+    branches: [ main, master ]
+    tags: [ 'v*' ]
+  pull_request:
+    branches: [ main, master ]
+
+env:
+  JAVA_VERSION: '17'
+  GRADLE_WRAPPER_VERSION: '8.9'
+  ANDROID_COMPILE_SDK: '35'
+  ANDROID_BUILD_TOOLS: '35.0.0'
+
+jobs:
+  build:
+    name: Build Android App
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Copy EPUB to assets
+      run: |
+        mkdir -p app/src/main/assets/book
+        if [ -f "book.epub" ]; then
+          cp book.epub app/src/main/assets/book/book.epub
+        fi
+        ls -la app/src/main/assets/book/
+
+    - name: Set up JDK ${{ env.JAVA_VERSION }}
+      uses: actions/setup-java@v4
+      with:
+        java-version: ${{ env.JAVA_VERSION }}
+        distribution: 'temurin'
+        cache: gradle
+
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+
+    - name: Decode Keystore (if available)
+      id: decode_keystore
+      run: |
+        if [ -n "${{ secrets.KEYSTORE_FILE }}" ]; then
+          echo "${{ secrets.KEYSTORE_FILE }}" | base64 -d > keystore.jks
+          echo "keystore_available=true" >> $GITHUB_OUTPUT
+        else
+          echo "keystore_available=false" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Create local.properties
+      run: |
+        echo "sdk.dir=$ANDROID_HOME" > local.properties
+        if [ -n "${{ secrets.ADMOB_APP_ID }}" ]; then
+          echo "admobAppId=${{ secrets.ADMOB_APP_ID }}" >> local.properties
+        fi
+
+    - name: Build Debug APK
+      run: ./gradlew assembleDebug
+      env:
+        ADMOB_APP_ID: ${{ secrets.ADMOB_APP_ID }}
+
+    - name: Upload Debug APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: debug-apk
+        path: app/build/outputs/apk/debug/app-debug.apk
+        retention-days: 14
+
+    - name: Build Release AAB (with signing)
+      if: steps.decode_keystore.outputs.keystore_available == 'true' && github.event_name != 'pull_request'
+      run: ./gradlew bundleRelease
+      env:
+        KEYSTORE_PATH: ${{ github.workspace }}/keystore.jks
+        KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+        KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+        KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        ADMOB_APP_ID: ${{ secrets.ADMOB_APP_ID }}
+
+    - name: Upload Release AAB
+      if: steps.decode_keystore.outputs.keystore_available == 'true' && github.event_name != 'pull_request'
+      uses: actions/upload-artifact@v4
+      with:
+        name: release-aab
+        path: app/build/outputs/bundle/release/app-release.aab
+        retention-days: 30
+
+    - name: Create Release (on tag)
+      if: startsWith(github.ref, 'refs/tags/')
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          app/build/outputs/bundle/release/app-release.aab
+          app/build/outputs/apk/debug/app-debug.apk
+        generate_release_notes: true

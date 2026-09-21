@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Chepe Rakha Reader — Strings -->
+<resources>
+    <string name="app_name">চেপে রাখা ইতিহাস</string>
+    <string name="read_now">বই পড়ুন</string>
+    <string name="table_of_contents">বিষয়সূচী</string>
+    <string name="settings">সেটিংস</string>
+    <string name="continue_reading">পড়া চালিয়ে যান</string>
+    <string name="start_reading">পড়া শুরু করুন</string>
+    <string name="cover_desc">বইয়ের প্রচ্ছদ</string>
+    <string name="chapter">অধ্যায়</string>
+    <string name="of">/</string>
+    <string name="progress_percent">%s%%</string>
+    <string name="theme">থিম</string>
+    <string name="light">লাইট</string>
+    <string name="sepia">সেপিয়া</string>
+    <string name="dark">ডার্ক</string>
+    <string name="font_family">ফন্ট</string>
+    <string name="font_size">ফন্ট সাইজ</string>
+    <string name="line_spacing">লাইন স্পেসিং</string>
+    <string name="margin">মার্জিন</string>
+    <string name="bookmarks">বুকমার্ক</string>
+    <string name="add_bookmark">বুকমার্ক যোগ করুন</string>
+    <string name="bookmark_added">বুকমার্ক যোগ হয়েছে</string>
+    <string name="bookmark_removed">বুকমার্ক সরানো হয়েছে</string>
+    <string name="no_bookmarks">কোনো বুকমার্ক নেই</string>
+    <string name="search">অনুসন্ধান</string>
+    <string name="search_hint">অনুসন্ধান করুন...</string>
+    <string name="back">ফিরে যান</string>
+    <string name="error_opening_book">বই খোলা যায়নি</string>
+    <string name="error_message">এই বইটি খোলার সময় সমস্যা হয়েছে। অনুগ্রহ করে অ্যাপটি রিইনস্টল করুন অথবা প্রকাশকের সাথে যোগাযোগ করুন।</string>
+    <string name="retry">আবার চেষ্টা করুন</string>
+    <string name="privacy_policy">গোপনীয়তা নীতি</string>
+    <string name="about">সম্পর্কে</string>
+    <string name="ad_test_mode">টেস্ট মোড</string>
+</resources>

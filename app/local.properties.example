@@ -1,0 +1,11 @@
+# Chepe Rakha Reader — Build Configuration
+# Copy this file and fill in your values. Do NOT commit real secrets.
+# CI will provide these via GitHub Secrets.
+
+# AdMob configuration (from Google Mobile Ads dashboard)
+# ADMOB_APP_ID=ca-app-pub-XXXXXXXX~YYYYYYYY
+# ADMOB_BANNER_AD_UNIT_ID=ca-app-pub-XXXXXXXX/BBBBBBBB
+# ADMOB_INTERSTITIAL_AD_UNIT_ID=ca-app-pub-XXXXXXXX/IIIIIIII
+
+# Build config for CI
+BUILD_CONFIG_VERSION=1

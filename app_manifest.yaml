@@ -1,0 +1,12 @@
+name: "Chepe Rakha Reader"
+package_name: "com.sobuj.cheperakha.reader"
+version_code: 1
+version_name: "1.0.0"
+min_sdk: 26
+target_sdk: 35
+compile_sdk: 35
+build_system: "gradle"
+ci_provider: "github_actions"
+local_build_allowed: false
+emulator_testable: true
+physical_device_testing: "required_before_release"
