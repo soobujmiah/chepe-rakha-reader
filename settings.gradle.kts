@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "ChepeRakhaReader"
+include(":app")
