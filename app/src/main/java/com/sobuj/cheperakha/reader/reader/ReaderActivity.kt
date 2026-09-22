@@ -42,7 +42,7 @@ class ReaderActivity : AppCompatActivity() {
     private fun setupViewer() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.readerContainer, ReaderFragment())
-            .commit()
+            .commitNow()
     }
 
     private fun loadBookContent() {
