@@ -35,12 +35,12 @@ class ReaderActivity : AppCompatActivity() {
         observeViewModel()
 
         // Load book content AFTER fragment has been created and its view is ready
-        supportFragmentManager.setFragmentLifecycleCallbacks(
+        supportFragmentManager.addFragmentLifecycleCallbacks(
             object : androidx.fragment.app.FragmentManager.FragmentLifecycleCallbacks() {
                 override fun onFragmentViewCreated(fm: androidx.fragment.app.FragmentManager, f: androidx.fragment.app.Fragment, v: View, savedInstanceState: Bundle?) {
                     if (f is ReaderFragment) {
                         loadBookContentIntoFragment(f)
-                        supportFragmentManager.unregisterLifecycleCallbacks(this)
+                        supportFragmentManager.removeFragmentLifecycleCallbacks(this)
                     }
                 }
             }, true
