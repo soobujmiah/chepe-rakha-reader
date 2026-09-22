@@ -16,6 +16,7 @@ import com.sobuj.cheperakha.reader.model.ReadingState
 import com.sobuj.cheperakha.reader.settings.SettingsStorage
 import com.sobuj.cheperakha.reader.model.ReadingSettings
 import com.sobuj.cheperakha.reader.viewmodel.MainViewModel
+import com.sobuj.cheperakha.reader.reader.ReaderActivity
 
 class MainActivity : AppCompatActivity() {
 
