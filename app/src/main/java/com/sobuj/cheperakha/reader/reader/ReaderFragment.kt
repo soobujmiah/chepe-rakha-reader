@@ -36,13 +36,17 @@ class ReaderFragment : Fragment() {
      * Called by ReaderActivity after EPUB is parsed. Safe to call before or after onViewCreated().
      */
     fun setBookData(contents: List<String>, titles: List<String>, stylesheet: String) {
+        android.util.Log.d("ReaderFragment", "setBookData called: contents.size=${contents.size}, titles.size=${titles.size}")
         // Store first so loadChapters can read it
         chapterContents = contents
         chapterTitles = titles
         cssStylesheet = stylesheet
         // Only load if view exists; otherwise onViewCreated() will load later
         if (_binding != null) {
+            android.util.Log.d("ReaderFragment", "View is ready, loading chapter $currentChapterIndex")
             loadCurrentChapter()
+        } else {
+            android.util.Log.d("ReaderFragment", "View NOT ready yet, will load in onViewCreated")
         }
     }
 
@@ -59,6 +63,7 @@ class ReaderFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupWebView()
         // Load chapters now that _binding is non-null
+        android.util.Log.d("ReaderFragment", "onViewCreated: chapterContents.size=${chapterContents.size}, isEmpty=${chapterContents.isEmpty()}")
         if (chapterContents.isNotEmpty()) {
             loadChapters(chapterContents, chapterTitles, cssStylesheet)
         }
