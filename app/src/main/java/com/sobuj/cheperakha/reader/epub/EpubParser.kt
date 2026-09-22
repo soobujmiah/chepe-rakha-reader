@@ -341,10 +341,6 @@ class EpubParser(private val context: Context) {
         epubZip = null
     }
 
-    private fun newPullParser(): XmlPullParser {
-        return XmlPullParserFactory.newInstance().also { it.isNamespaceAware = true }.newPullParser()
-    }
-
     data class TocEntry(val title: String, val href: String, val depth: Int)
     data class SearchResult(val filename: String, val snippet: String, val context: String)
 }
