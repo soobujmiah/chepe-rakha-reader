@@ -14,7 +14,6 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@color/surface</item>
         <item name="materialButtonStyle">@style/CustomMaterialButton</item>
-        <item name="materialChipStyle">@style/CustomChip</item>
     </style>
 
     <style name="CustomMaterialButton" parent="Widget.MaterialComponents.Button">
