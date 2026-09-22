@@ -23,10 +23,12 @@ class ReaderFragment : Fragment() {
     private var _binding: FragmentReaderBinding? = null
     private val binding get() = _binding!!
 
-    private var currentChapterIndex = 0
-    private var chapterContents: List<String> = emptyList()
-    private var chapterTitles: List<String> = emptyList()
-    private var cssStylesheet = ""
+    var chapterContents: List<String> = emptyList()
+        private set
+    var chapterTitles: List<String> = emptyList()
+        private set
+    var cssStylesheet = ""
+        private set
     private var readingSettings = ReadingSettings()
 
     override fun onCreateView(
@@ -41,6 +43,8 @@ class ReaderFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupWebView()
+        // Load chapters now that the view exists and _binding is non-null
+        loadChapters(chapterContents, chapterTitles, cssStylesheet)
     }
 
     private fun setupWebView() {
