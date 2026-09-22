@@ -45,7 +45,7 @@ class ReaderFragment : Fragment() {
 
     private fun setupWebView() {
         val webView = binding.webReader
-        
+
         val settings: WebSettings = webView.settings
         settings.javaScriptEnabled = false // Disable JS for security
         settings.domStorageEnabled = true
@@ -55,7 +55,7 @@ class ReaderFragment : Fragment() {
         settings.setSupportZoom(false)
         settings.builtInZoomControls = false
         settings.displayZoomControls = false
-        
+
         webView.isVerticalScrollBarEnabled = false
         webView.isHorizontalScrollBarEnabled = false
 
@@ -89,15 +89,15 @@ class ReaderFragment : Fragment() {
 
         val htmlContent = chapterContents[currentChapterIndex]
         val chapterTitle = chapterTitles.getOrNull(currentChapterIndex) ?: "Chapter ${currentChapterIndex + 1}"
-        
+
         // Build complete HTML with styles
         val fullHtml = buildHtmlContent(htmlContent)
-        
+
         // Set theme colors via CSS variables
         val bgColor = getBackgroundColor()
         val textColor = getTextColor()
         val accentColor = getAccentColor()
-        
+
         val themedHtml = """
             <html>
             <head>
@@ -175,7 +175,7 @@ class ReaderFragment : Fragment() {
         // Extract body content if present
         val bodyStart = chapterHtml.indexOf("<body")
         val bodyEnd = chapterHtml.indexOf("</body>")
-        
+
         return if (bodyStart != -1 && bodyEnd != -1) {
             chapterHtml.substring(bodyStart, bodyEnd + 7)
         } else {
@@ -186,7 +186,7 @@ class ReaderFragment : Fragment() {
     private fun getBackgroundColor(): String {
         return when (readingSettings.theme) {
             ReadingSettings.Theme.LIGHT -> "#FAF8F5"
-            ReadingSettings.Theme.Sepia -> "#F5F0E8"
+            ReadingSettings.Theme.SEPIA -> "#F5F0E8"
             ReadingSettings.Theme.DARK -> "#1A1A1A"
         }
     }
@@ -194,7 +194,7 @@ class ReaderFragment : Fragment() {
     private fun getTextColor(): String {
         return when (readingSettings.theme) {
             ReadingSettings.Theme.LIGHT -> "#1A1A1A"
-            ReadingSettings.Theme.Sepia -> "#3A2E1A"
+            ReadingSettings.Theme.SEPIA -> "#3A2E1A"
             ReadingSettings.Theme.DARK -> "#E8E6E3"
         }
     }
@@ -202,7 +202,7 @@ class ReaderFragment : Fragment() {
     private fun getAccentColor(): String {
         return when (readingSettings.theme) {
             ReadingSettings.Theme.LIGHT -> "#8B6914"
-            ReadingSettings.Theme.Sepia -> "#6B4F1D"
+            ReadingSettings.Theme.SEPIA -> "#6B4F1D"
             ReadingSettings.Theme.DARK -> "#C4A35A"
         }
     }
@@ -210,7 +210,7 @@ class ReaderFragment : Fragment() {
     private fun getSecondaryColor(): String {
         return when (readingSettings.theme) {
             ReadingSettings.Theme.LIGHT -> "#6B6B6B"
-            ReadingSettings.Theme.Sepia -> "#7A6B52"
+            ReadingSettings.Theme.SEPIA -> "#7A6B52"
             ReadingSettings.Theme.DARK -> "#9E9E9E"
         }
     }
@@ -257,7 +257,7 @@ class ReaderFragment : Fragment() {
         chapterTitles = titles
         cssStylesheet = stylesheet
         loadCurrentChapter()
-        
+
         // Notify parent of chapter info
         parentFragmentManager.setFragmentResult("chapter_info", Bundle().apply {
             putString("title", chapterTitles.getOrNull(currentChapterIndex) ?: "")

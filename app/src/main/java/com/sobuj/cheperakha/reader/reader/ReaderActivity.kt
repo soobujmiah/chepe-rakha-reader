@@ -34,7 +34,7 @@ class ReaderActivity : AppCompatActivity() {
         loadBookContent()
         setupGestureControls()
         observeViewModel()
-        
+
         // Auto-hide controls after delay
         startAutoHideTimer()
     }
@@ -51,39 +51,39 @@ class ReaderActivity : AppCompatActivity() {
 
         try {
             epubParser.openEpub("book/book.epub")
-            
+
             val contents = epubParser.getChapterContents()
             val toc = epubParser.readTableOfContents()
-            
+
             val chapterContents = mutableListOf<String>()
             val chapterTitles = mutableListOf<String>()
-            
+
             // Sort by TOC order if available, otherwise by filename
             val sortedHrefs = toc.map { it.href }.toList()
             val orderedKeys = contents.keys.sortedBy { href ->
                 sortedHrefs.indexOf(href).takeIf { it >= 0 } ?: Int.MAX_VALUE
             }
-            
+
             orderedKeys.forEach { key ->
                 chapterContents.add(contents[key] ?: "")
-                val title = toc.firstOrNull { it.href == key }?.title 
+                val title = toc.firstOrNull { it.href == key }?.title
                     ?: key.replace(".html", "").replace(".xhtml", "")
                         .split("_").lastOrNull()?.trim() ?: key
                 chapterTitles.add(title)
             }
 
             val stylesheet = epubParser.getStylesheets().values.firstOrNull() ?: ""
-            
+
             // Find and pass to fragment
             val fragment = supportFragmentManager.findFragmentById(R.id.readerContainer) as? ReaderFragment
             fragment?.loadChapters(chapterContents, chapterTitles, stylesheet)
-            
+
             binding.progressBar.visibility = View.GONE
 
         } catch (e: Exception) {
             binding.progressBar.visibility = View.GONE
             binding.errorMessage.visibility = View.VISIBLE
-            binding.errorMessage.text = getString(R.string.error_message)
+            binding.errorMessageText.text = getString(R.string.error_message)
             e.printStackTrace()
         }
     }
@@ -142,7 +142,7 @@ class ReaderActivity : AppCompatActivity() {
         val dialog = BottomSheetDialog(this)
         val contentView = layoutInflater.inflate(R.layout.dialog_toc, null)
         dialog.setContentView(contentView)
-        
+
         // TODO: Populate TOC RecyclerView
         dialog.show()
     }
@@ -151,9 +151,9 @@ class ReaderActivity : AppCompatActivity() {
         val dialog = BottomSheetDialog(this)
         val contentView = layoutInflater.inflate(R.layout.dialog_settings, null)
         dialog.setContentView(contentView)
-        
+
         // TODO: Setup settings controls
-        
+
         dialog.show()
     }
 
@@ -168,7 +168,7 @@ class ReaderActivity : AppCompatActivity() {
         // Save reading position
         val fragment = supportFragmentManager.findFragmentById(R.id.readerContainer) as? ReaderFragment
         fragment?.let {
-            viewModel.saveReadingPosition(it.getCurrentChapterIndex(), it.webReader.scrollY)
+            viewModel.saveReadingPosition(it.getCurrentChapterIndex(), 0)
         }
     }
 
@@ -181,7 +181,6 @@ class ReaderActivity : AppCompatActivity() {
             if (savedPosition.chapterIndex != it.getCurrentChapterIndex()) {
                 it.goToChapter(savedPosition.chapterIndex)
             }
-            it.webReader.scrollTo(0, savedPosition.scrollY)
         }
     }
 

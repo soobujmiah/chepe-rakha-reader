@@ -14,8 +14,8 @@ import kotlinx.coroutines.launch
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     private val settingsStorage = SettingsStorage(application)
-    
-    private val _uiState = MutableStateFlow(UiState.Loading)
+
+    private val _uiState = MutableStateFlow<UiState>(UiState.Loading)
     val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
     private val _readingState = MutableStateFlow(ReadingState())
@@ -33,11 +33,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         _readingState.value = state
     }
 
-    fun getSettings(): ReadingSettings {
-        return settingsStorage.getSettings()
-    }
+    fun getSettings() = settingsStorage.getSettings()
 
-    fun updateSettings(settings: ReadingSettings) {
+    fun updateSettings(settings: com.sobuj.cheperakha.reader.model.ReadingSettings) {
         settingsStorage.saveSettings(settings)
     }
 
