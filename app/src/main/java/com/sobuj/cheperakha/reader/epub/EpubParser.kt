@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import org.xmlpull.v1.XmlPullParser
+import org.xmlpull.v1.XmlPullParserFactory
 import java.io.InputStream
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
@@ -339,6 +340,10 @@ class EpubParser(private val context: Context) {
     fun close() {
         epubZip?.close()
         epubZip = null
+    }
+
+    private fun newPullParser(): XmlPullParser {
+        return XmlPullParserFactory.newInstance().also { it.isNamespaceAware = true }.newPullParser()
     }
 
     data class TocEntry(val title: String, val href: String, val depth: Int)
