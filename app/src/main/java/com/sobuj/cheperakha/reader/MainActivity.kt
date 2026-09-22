@@ -41,11 +41,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupAds() {
-        if (binding.adView != null) {
-            binding.adView.adUnitId = getString(R.string.ad_banner_id)
-            val adRequest = AdRequest.Builder().build()
-            binding.adView.loadAd(adRequest)
-        }
+        // Ad unit ID is already set in activity_main.xml via app:adUnitId
+        // Do NOT call binding.adView.adUnitId again — it throws IllegalStateException
+        if (binding.adView.visibility == View.GONE) return
+        val adRequest = AdRequest.Builder().build()
+        binding.adView.loadAd(adRequest)
     }
 
     private fun loadBook() {
