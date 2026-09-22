@@ -74,15 +74,8 @@ class ReaderActivity : AppCompatActivity() {
 
             val stylesheet = epubParser.getStylesheets().values.firstOrNull() ?: ""
 
-            // Set data on fragment; it will load chapters in its onViewCreated()
             val fragment = supportFragmentManager.findFragmentById(R.id.readerContainer) as? ReaderFragment
-            if (fragment != null) {
-                fragment.chapterContents = chapterContents
-                fragment.chapterTitles = chapterTitles
-                fragment.cssStylesheet = stylesheet
-                // Trigger loading — it will be a no-op if onViewCreated() already ran
-                fragment.loadChapters(chapterContents, chapterTitles, stylesheet)
-            }
+            fragment?.setBookData(chapterContents, chapterTitles, stylesheet)
 
             binding.progressBar.visibility = View.GONE
 

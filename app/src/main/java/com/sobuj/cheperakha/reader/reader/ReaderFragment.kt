@@ -29,7 +29,22 @@ class ReaderFragment : Fragment() {
         private set
     var cssStylesheet = ""
         private set
+    private var currentChapterIndex = 0
     private var readingSettings = ReadingSettings()
+
+    /**
+     * Called by ReaderActivity after EPUB is parsed. Safe to call before or after onViewCreated().
+     */
+    fun setBookData(contents: List<String>, titles: List<String>, stylesheet: String) {
+        // Store first so loadChapters can read it
+        chapterContents = contents
+        chapterTitles = titles
+        cssStylesheet = stylesheet
+        // Only load if view exists; otherwise onViewCreated() will load later
+        if (_binding != null) {
+            loadCurrentChapter()
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,8 +58,10 @@ class ReaderFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupWebView()
-        // Load chapters now that the view exists and _binding is non-null
-        loadChapters(chapterContents, chapterTitles, cssStylesheet)
+        // Load chapters now that _binding is non-null
+        if (chapterContents.isNotEmpty()) {
+            loadChapters(chapterContents, chapterTitles, cssStylesheet)
+        }
     }
 
     private fun setupWebView() {
