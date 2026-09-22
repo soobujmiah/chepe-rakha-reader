@@ -31,9 +31,20 @@ class ReaderActivity : AppCompatActivity() {
         epubParser = EpubParser(this)
 
         setupViewer()
-        loadBookContent()
         setupGestureControls()
         observeViewModel()
+
+        // Load book content AFTER fragment has been created and its view is ready
+        supportFragmentManager.setFragmentLifecycleCallbacks(
+            object : androidx.fragment.app.FragmentManager.FragmentLifecycleCallbacks() {
+                override fun onFragmentViewCreated(fm: androidx.fragment.app.FragmentManager, f: androidx.fragment.app.Fragment, v: View, savedInstanceState: Bundle?) {
+                    if (f is ReaderFragment) {
+                        loadBookContentIntoFragment(f)
+                        supportFragmentManager.unregisterLifecycleCallbacks(this)
+                    }
+                }
+            }, true
+        )
 
         // Auto-hide controls after delay
         startAutoHideTimer()
@@ -45,7 +56,7 @@ class ReaderActivity : AppCompatActivity() {
             .commitNow()
     }
 
-    private fun loadBookContent() {
+    private fun loadBookContentIntoFragment(fragment: ReaderFragment) {
         binding.progressBar.visibility = View.VISIBLE
         binding.errorMessage.visibility = View.GONE
 
@@ -74,10 +85,7 @@ class ReaderActivity : AppCompatActivity() {
 
             val stylesheet = epubParser.getStylesheets().values.firstOrNull() ?: ""
 
-            // Find and pass to fragment
-            val fragment = supportFragmentManager.findFragmentById(R.id.readerContainer) as? ReaderFragment
-            fragment?.loadChapters(chapterContents, chapterTitles, stylesheet)
-
+            fragment.loadChapters(chapterContents, chapterTitles, stylesheet)
             binding.progressBar.visibility = View.GONE
 
         } catch (e: Exception) {
