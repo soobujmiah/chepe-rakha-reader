@@ -34,10 +34,10 @@
             android:windowSoftInputMode="adjustPan"
             android:parentActivityName=".MainActivity" />
 
-        <!-- Google AdMob App ID — can be overridden via local.properties admobAppId property -->
+        <!-- Google AdMob App ID - set via manifestPlaceholders in build.gradle -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="${ADMOB_APP_ID:-ca-app-pub-3940256099942544~3347511713}" />
+            android:value="${ADMOB_APP_ID}" />
 
     </application>
 </manifest>

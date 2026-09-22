@@ -18,12 +18,10 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         ndk { abiFilters += listOf("arm64-v8a") }
 
-        // AdMob App ID — override via local.properties admobAppId or CI secrets
-        manifestPlaceholders["ADMOB_APP_ID"] = project.findProperty("admobAppId") as String? 
+        // AdMob App ID - test ID by default, override with admobAppId property
+        val admobAppId = project.findProperty("admobAppId") as String?
             ?: "ca-app-pub-3940256099942544~3347511713"
-        
-        buildConfigField("String", "ADMOB_APP_ID", "\"${manifestPlaceholders["ADMOB_APP_ID"]}\"")
-        buildConfigField("boolean", "IS_TEST_BUILD", "true")
+        manifestPlaceholders["ADMOB_APP_ID"] = admobAppId
     }
 
     buildTypes {
@@ -34,16 +32,14 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            manifestPlaceholders["ADMOB_APP_ID"] = project.findProperty("admobAppId") as String?
+            val admobAppId = project.findProperty("admobAppId") as String?
                 ?: "ca-app-pub-3940256099942544~3347511713"
-            buildConfigField("String", "ADMOB_APP_ID", "\"${manifestPlaceholders["ADMOB_APP_ID"]}\"")
-            buildConfigField("boolean", "IS_TEST_BUILD", "false")
+            manifestPlaceholders["ADMOB_APP_ID"] = admobAppId
         }
         debug {
-            manifestPlaceholders["ADMOB_APP_ID"] = project.findProperty("admobAppId") as String?
+            val admobAppId = project.findProperty("admobAppId") as String?
                 ?: "ca-app-pub-3940256099942544~3347511713"
-            buildConfigField("String", "ADMOB_APP_ID", "\"${manifestPlaceholders["ADMOB_APP_ID"]}\"")
-            buildConfigField("boolean", "IS_TEST_BUILD", "true")
+            manifestPlaceholders["ADMOB_APP_ID"] = admobAppId
             isMinifyEnabled = false
         }
     }
@@ -57,7 +53,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
-        buildConfig = true
+        buildConfig = false
     }
 }
 
