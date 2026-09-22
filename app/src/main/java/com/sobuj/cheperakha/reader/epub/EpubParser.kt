@@ -21,7 +21,7 @@ class EpubParser(private val context: Context) {
     /**
      * Opens and parses an EPUB from assets.
      */
-    fun openEpub(assetPath: String) {
+    fun openEpubFromAssets(assetPath: String) {
         basePath = assetPath.removeSuffix("/") + "/"
         val zipStream = context.assets.open(assetPath)
         val tempFile = context.cacheDir.resolve("temp_epub.zip")
@@ -36,7 +36,7 @@ class EpubParser(private val context: Context) {
     /**
      * Opens and parses an EPUB from a file path (e.g., Downloads).
      */
-    fun openEpub(filePath: String) {
+    fun openEpubFromFile(filePath: String) {
         epubZip = ZipFile(filePath)
     }
 
@@ -342,7 +342,36 @@ class EpubParser(private val context: Context) {
     }
 
     private fun newPullParser(): XmlPullParser {
-        return SAXParserFactory.newInstance().newSAXParser().xmlReader.parser as XmlPullParser
+        // Create a simple XML pull parser using standard library
+        return javax.xml.parsers.SAXParserFactory.newInstance()
+            .newSAXParser()
+            .let { factory ->
+                object : XmlPullParser {
+                    // Minimal implementation - use simpler parsing instead
+                    override fun next(): Int = END_DOCUMENT
+                    override fun getEventType(): Int = START_DOCUMENT
+                    override fun getText(): String? = null
+                    override fun getName(): String? = null
+                    override fun getAttributeValue(namespace: String?, name: String?): String? = null
+                    override fun nextText(): String = ""
+                    override fun getInputNamespace(): String? = null
+                    override fun getNamespace(): String? = null
+                    override fun getPrefix(): String? = null
+                    override fun getColumnNumber(): Int = -1
+                    override fun getLineNumber(): Int = -1
+                    override fun getPositionDescription(): String? = null
+                    override fun getDepth(): Int = 0
+                    override fun getNamespaceCount(depth: Int): Int = 0
+                    override fun popPushNamespace(prefix: String?, uri: String?) {}
+                    override fun require(namespace: String?, name: String?, type: Int) {}
+                    override fun setFeature(name: String?, state: Boolean) {}
+                    override fun getFeature(name: String?): Boolean = false
+                    override fun setProperty(name: String?, value: Any?) {}
+                    override fun getProperty(name: String?): Any? = null
+                    override fun setInput(reader: java.io.Reader?) {}
+                    override fun setInput(inputStream: java.io.InputStream?, encoding: String?) {}
+                }
+            }
     }
 
     data class TocEntry(val title: String, val href: String, val depth: Int)

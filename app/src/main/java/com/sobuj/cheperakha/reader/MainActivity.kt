@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
         binding.authorName.text = ""
 
         try {
-            epubParser.openEpub("book/book.epub")
+            epubParser.openEpubFromAssets("book/book.epub")
             
             // Load metadata
             val meta = epubParser.readMetadata()

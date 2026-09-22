@@ -50,7 +50,7 @@ class ReaderActivity : AppCompatActivity() {
         binding.errorMessage.visibility = View.GONE
 
         try {
-            epubParser.openEpub("book/book.epub")
+            epubParser.openEpubFromAssets("book/book.epub")
 
             val contents = epubParser.getChapterContents()
             val toc = epubParser.readTableOfContents()
