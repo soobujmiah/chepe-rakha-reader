@@ -78,14 +78,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <ImageButton
+        <TextView
             android:id="@+id/btnPrevChapter"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@android:drawable/ic_menu_revert"
-            android:contentDescription="Previous Chapter"
+            android:text="◀"
+            android:textSize="18sp"
+            android:textColor="@color/text_primary"
+            android:gravity="center"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:tint="@color/text_primary"
             android:visibility="gone" />
 
         <TextView
@@ -108,14 +109,15 @@
             android:textSize="13sp"
             android:textColor="@color/text_secondary" />
 
-        <ImageButton
+        <TextView
             android:id="@+id/btnNextChapter"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@android:drawable/ic_menu_forward"
-            android:contentDescription="Next Chapter"
+            android:text="▶"
+            android:textSize="18sp"
+            android:textColor="@color/text_primary"
+            android:gravity="center"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:tint="@color/text_primary"
             android:layout_marginStart="8dp"
             android:visibility="visible" />
 
