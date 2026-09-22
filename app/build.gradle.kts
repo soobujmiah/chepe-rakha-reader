@@ -18,8 +18,11 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         ndk { abiFilters += listOf("arm64-v8a") }
 
-        // BuildConfig fields for ad placement decisions
-        buildConfigField("String", "ADMOB_APP_ID", "\"ca-app-pub-3940256099942544~3347511713\"")
+        // AdMob App ID — override via local.properties admobAppId or CI secrets
+        manifestPlaceholders["ADMOB_APP_ID"] = project.findProperty("admobAppId") as String? 
+            ?: "ca-app-pub-3940256099942544~3347511713"
+        
+        buildConfigField("String", "ADMOB_APP_ID", "\"${manifestPlaceholders["ADMOB_APP_ID"]}\"")
         buildConfigField("boolean", "IS_TEST_BUILD", "true")
     }
 
@@ -31,12 +34,15 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            // Use product Flavors to switch between test and production AdMob IDs
-            buildConfigField("String", "ADMOB_APP_ID", project.findProperty("admobAppId") as String? ?: "\"ca-app-pub-3940256099942544~3347511713\"")
+            manifestPlaceholders["ADMOB_APP_ID"] = project.findProperty("admobAppId") as String?
+                ?: "ca-app-pub-3940256099942544~3347511713"
+            buildConfigField("String", "ADMOB_APP_ID", "\"${manifestPlaceholders["ADMOB_APP_ID"]}\"")
             buildConfigField("boolean", "IS_TEST_BUILD", "false")
         }
         debug {
-            buildConfigField("String", "ADMOB_APP_ID", project.findProperty("admobAppId") as String? ?: "\"ca-app-pub-3940256099942544~3347511713\"")
+            manifestPlaceholders["ADMOB_APP_ID"] = project.findProperty("admobAppId") as String?
+                ?: "ca-app-pub-3940256099942544~3347511713"
+            buildConfigField("String", "ADMOB_APP_ID", "\"${manifestPlaceholders["ADMOB_APP_ID"]}\"")
             buildConfigField("boolean", "IS_TEST_BUILD", "true")
             isMinifyEnabled = false
         }
