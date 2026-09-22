@@ -173,7 +173,7 @@ class ReaderActivity : AppCompatActivity() {
         }
 
         // Listen for chapter info updates from fragment
-        parentFragmentManager.setFragmentResultListener("chapter_info", this) { _, bundle ->
+        supportFragmentManager.setFragmentResultListener("chapter_info", this) { _, bundle ->
             val title = bundle.getString("title") ?: ""
             val total = bundle.getInt("total", 0)
             val current = bundle.getInt("current", 1)
