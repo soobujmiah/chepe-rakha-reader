@@ -115,6 +115,8 @@ class ReaderFragment : Fragment() {
 
         val htmlContent = chapterContents[currentChapterIndex]
         val chapterTitle = chapterTitles.getOrNull(currentChapterIndex) ?: "Chapter ${currentChapterIndex + 1}"
+        val isFirstChapter = currentChapterIndex == 0
+        val isLastChapter = currentChapterIndex == chapterContents.size - 1
 
         // Build complete HTML with styles
         val fullHtml = buildHtmlContent(htmlContent)
