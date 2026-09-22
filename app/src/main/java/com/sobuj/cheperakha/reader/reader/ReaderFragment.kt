@@ -195,6 +195,15 @@ class ReaderFragment : Fragment() {
             "UTF-8",
             null
         )
+
+        // Notify parent of current chapter
+        parentFragmentManager.setFragmentResult("chapter_info", Bundle().apply {
+            putString("title", chapterTitle)
+            putInt("total", chapterContents.size)
+            putInt("current", currentChapterIndex + 1)
+            putBoolean("isFirst", isFirstChapter)
+            putBoolean("isLast", isLastChapter)
+        })
     }
 
     private fun buildHtmlContent(chapterHtml: String): String {

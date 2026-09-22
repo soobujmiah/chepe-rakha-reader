@@ -64,7 +64,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Bottom bar with chapter name and progress -->
+    <!-- Bottom bar with chapter name, progress, and navigation -->
     <LinearLayout
         android:id="@+id/bottomBar"
         android:layout_width="0dp"
@@ -78,6 +78,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
+        <ImageButton
+            android:id="@+id/btnPrevChapter"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@android:drawable/ic_menu_revert"
+            android:contentDescription="Previous Chapter"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:tint="@color/text_primary"
+            android:visibility="gone" />
+
         <TextView
             android:id="@+id/chapterName"
             android:layout_width="0dp"
@@ -86,7 +96,9 @@
             android:textSize="13sp"
             android:textColor="@color/text_secondary"
             android:maxLines="1"
-            android:ellipsize="end" />
+            android:ellipsize="end"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp" />
 
         <TextView
             android:id="@+id/progressPct"
@@ -95,6 +107,17 @@
             android:layout_marginStart="12dp"
             android:textSize="13sp"
             android:textColor="@color/text_secondary" />
+
+        <ImageButton
+            android:id="@+id/btnNextChapter"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@android:drawable/ic_menu_forward"
+            android:contentDescription="Next Chapter"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:tint="@color/text_primary"
+            android:layout_marginStart="8dp"
+            android:visibility="visible" />
 
     </LinearLayout>
 

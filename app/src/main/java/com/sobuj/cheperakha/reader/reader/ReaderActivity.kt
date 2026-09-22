@@ -97,6 +97,17 @@ class ReaderActivity : AppCompatActivity() {
         binding.chapterName.setOnClickListener {
             showTableOfContents()
         }
+
+        // Chapter navigation buttons
+        binding.btnPrevChapter.setOnClickListener {
+            val fragment = supportFragmentManager.findFragmentById(R.id.readerContainer) as? ReaderFragment
+            fragment?.goToChapter(fragment.getCurrentChapterIndex() - 1)
+        }
+
+        binding.btnNextChapter.setOnClickListener {
+            val fragment = supportFragmentManager.findFragmentById(R.id.readerContainer) as? ReaderFragment
+            fragment?.goToChapter(fragment.getCurrentChapterIndex() + 1)
+        }
     }
 
     private fun toggleControls() {
@@ -159,6 +170,20 @@ class ReaderActivity : AppCompatActivity() {
     private fun observeViewModel() {
         viewModel.progress.observe(this) { percent ->
             binding.progressPct.text = "${percent.toInt()}%"
+        }
+
+        // Listen for chapter info updates from fragment
+        parentFragmentManager.setFragmentResultListener("chapter_info", this) { _, bundle ->
+            val title = bundle.getString("title") ?: ""
+            val total = bundle.getInt("total", 0)
+            val current = bundle.getInt("current", 1)
+            val isFirst = bundle.getBoolean("isFirst", true)
+            val isLast = bundle.getBoolean("isLast", false)
+
+            binding.chapterName.text = title
+            binding.progressPct.text = "Chapter $current of $total"
+            binding.btnPrevChapter.visibility = if (isFirst) View.GONE else View.VISIBLE
+            binding.btnNextChapter.visibility = if (isLast) View.GONE else View.VISIBLE
         }
     }
 
