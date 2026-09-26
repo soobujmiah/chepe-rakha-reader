@@ -1,0 +1,30 @@
+schema_version: 1
+project_id: chepe-rakha-reader
+repository: soobujmiah/chepe-rakha-reader
+generated_at: '2026-09-26T17:59:18Z'
+generated_by: tools/repo_knowledge init
+version: eeff30f
+head:
+  commit: eeff30fdc6668931860cde4d130611204fbcaae6
+  branch: master
+  committed_at: '2026-09-22T07:58:26Z'
+phases:
+  source: not_configured
+  completed: []
+  active: null
+  next: null
+build:
+  status: unknown
+  run_id: null
+  at: null
+test:
+  status: unknown
+  run_id: null
+  at: null
+  summary: null
+last_successful_build: null
+last_failed_build: null
+sync:
+  status: pending
+  last_synced_at: '2026-09-26T17:59:19Z'
+  source: local

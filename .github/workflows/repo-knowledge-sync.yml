@@ -1,0 +1,116 @@
+name: Repo Knowledge Sync
+
+# Deterministic repository state sync — governed by governance/DETERMINISTIC_STATE_SYNC_POLICY.md.
+#
+# This does NOT re-run a full Android Gradle build merely to confirm it works (matches the
+# adt/lai precedent). Instead this workflow triggers via `workflow_run` when "Build Android App"
+# (.github/workflows/build.yml) completes, and reads that run's own conclusion:
+#   - build.status <- the "Build Android App" job's conclusion (assembleDebug/bundleRelease).
+#   - test.status  <- honestly "unknown": build.yml has no unit-test step, so there is no real
+#                      test signal to report. Not fabricated as passed.
+#
+# This repository does NOT push anything to SKB and needs no credential for SKB at all.
+# SKB pulls this repository's .repo/project.yaml itself, on its own schedule, using its own
+# ambient token (.github/workflows/registry-pull.yml in soobujmiah/skb) -- see
+# scripts/pull_skb_registry.py's module docstring in SKB for the full model. A repository only
+# becomes a synchronization participant when SKB's projects/registry/index.json explicitly
+# registers it (the "Register" step of the rollout process) -- never automatically.
+#
+# scripts/push_skb_registry.py (a cross-repo write from THIS repo into SKB) is NOT part of this
+# workflow and must not be re-added: the default GITHUB_TOKEN a workflow receives cannot write to
+# a different repository, and no participating repository should be given a credential that can.
+
+on:
+  workflow_run:
+    workflows: ["Build Android App"]
+    types: [completed]
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Install dependencies
+        run: pip install --quiet pyyaml
+
+      - name: Run tools/repo_knowledge tests
+        run: python3 -m unittest discover -s tools/repo_knowledge/tests -p 'test_*.py' -v
+
+  sync:
+    needs: test
+    if: >-
+      always() &&
+      github.event_name != 'pull_request' &&
+      (github.event_name != 'workflow_run' || github.event.workflow_run.head_branch == 'master')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.workflow_run.head_sha || github.ref }}
+
+      # Checking out an exact SHA leaves Git detached; restore the branch name so
+      # core.py's `git rev-parse --abbrev-ref HEAD` reports "master", not "HEAD"
+      # (documented gotcha from adt's rollout).
+      - name: Restore branch name after exact-SHA checkout
+        run: git checkout -B "${{ github.event.workflow_run.head_branch || github.ref_name }}"
+
+      - name: Install dependencies
+        run: pip install --quiet pyyaml
+
+      - name: Derive build status from the Build Android App run
+        id: derive
+        if: github.event_name == 'workflow_run'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          CONCLUSION="${{ github.event.workflow_run.conclusion }}"
+          case "$CONCLUSION" in
+            success) echo "build_status=passed" >> "$GITHUB_OUTPUT" ;;
+            failure) echo "build_status=failed" >> "$GITHUB_OUTPUT" ;;
+            *) echo "build_status=" >> "$GITHUB_OUTPUT" ;;
+          esac
+
+      - name: Collect and sync deterministic state
+        if: always()
+        run: |
+          set -euo pipefail
+          args=(--ci --build-run-id "${{ github.event.workflow_run.id || github.run_id }}")
+          if [ -n "${{ steps.derive.outputs.build_status }}" ]; then
+            args+=(--build-status "${{ steps.derive.outputs.build_status }}")
+          fi
+          # No test step exists in build.yml -- honestly report unknown, never fabricated.
+          args+=(--test-status "unknown")
+          python3 -m tools.repo_knowledge sync "${args[@]}"
+
+      - name: Verify .repo/ against schemas
+        if: always()
+        run: python3 -m tools.repo_knowledge verify
+
+      # No "push to SKB" step here on purpose -- see header comment.
+
+      - name: Commit updated .repo/ state
+        if: >-
+          always() &&
+          github.event_name == 'workflow_run' &&
+          github.event.workflow_run.event == 'push' &&
+          github.event.workflow_run.head_branch == 'master'
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- .repo; then
+            echo "no .repo/ change to commit"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .repo
+          git commit -m "chore(repo-knowledge): sync deterministic state for ${{ github.event.workflow_run.head_sha }}"
+          git push origin HEAD:master
