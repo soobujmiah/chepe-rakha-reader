@@ -1,13 +1,13 @@
 schema_version: 1
 project_id: chepe-rakha-reader
 repository: soobujmiah/chepe-rakha-reader
-generated_at: '2026-09-29T17:21:29Z'
+generated_at: '2026-10-28T11:28:23Z'
 generated_by: tools/repo_knowledge collect
-version: 5d93679
+version: 9b3b580
 head:
-  commit: 5d936790fec0ddf578d31f2ca3e0f5312a471a67
+  commit: 9b3b58047e4165b1d9d81ddd03a738bd5f04511c
   branch: master
-  committed_at: '2026-09-29T17:17:48Z'
+  committed_at: '2026-09-29T22:38:12Z'
 phases:
   source: not_configured
   completed: []
@@ -29,18 +29,15 @@ build:
   run_url: https://github.com/soobujmiah/chepe-rakha-reader/actions/runs/36603930555
 test:
   status: unknown
-  run_id: '36603930555'
-  commit: 5d936790fec0ddf578d31f2ca3e0f5312a471a67
+  run_id: '40680178942'
+  commit: 9b3b58047e4165b1d9d81ddd03a738bd5f04511c
   run_attempt: '1'
-  at: '2026-09-29T17:21:29Z'
+  at: '2026-10-28T11:28:23Z'
   timestamp_source: observed
-  workflow_name: Build Android App
-  workflow_id: '363804554'
-  event_type: push
-  started_at: '2026-09-29T17:17:52Z'
-  completed_at: '2026-09-29T17:21:01Z'
+  workflow_name: Repo Knowledge Sync
+  event_type: workflow_dispatch
   actor: soobujmiah
-  run_url: https://github.com/soobujmiah/chepe-rakha-reader/actions/runs/36603930555
+  run_url: https://github.com/soobujmiah/chepe-rakha-reader/actions/runs/40680178942
   summary: null
 last_successful_build:
   commit: 5d936790fec0ddf578d31f2ca3e0f5312a471a67
@@ -49,5 +46,5 @@ last_successful_build:
 last_failed_build: null
 sync:
   status: ok
-  last_synced_at: '2026-09-29T17:21:29Z'
+  last_synced_at: '2026-10-28T11:28:23Z'
   source: ci
